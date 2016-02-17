@@ -35,3 +35,23 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % (self.body)
+
+class testtype(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(64), unique = True)
+
+	def __repr__(self):
+		return '<Test Name %r>' % (self.name)
+	
+class Test(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	sn = db.Column(db.String(25), index=True)	# poderia ser um int
+	test_begin = db.Column(db.DateTime)
+	test_conclusion = db.Column(db.DateTime)
+	status = db.Column(db.Boolean) # poderia ser um enum
+	test_data = db.Column(db.String(2048))
+	test_type = db.Column(db.Integer, db.ForeignKey('testtype.id'))
+
+	def __repr__(self):
+			return '<SN %r status %r TestData %r  >' % (self.sn, self.status, self.test_data)
+	
