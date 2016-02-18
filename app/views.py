@@ -69,8 +69,8 @@ def after_login(resp):
 	login_user(user, remember = remember_me)
 	return redirect(request.args.get('next') or url_for('index'))
 
-@app.route('/serverlogs/api/v0.1/testes/<int:test_id>', methods = ['PUT']) # talvez mudar para POST
+#@app.route('/serverlogs/api/v0.1/testes/<int:test_id>', methods = ['PUT']) # talvez mudar para POST
 #@auth.login_required #habilitar quando se tiver um sistema de login pronto
-def update_test(test_id):
+#def update_test(test_id):
 
 	

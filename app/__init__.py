@@ -3,7 +3,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.openid import OpenID
-from flask.ext.restful import Api, Resource, fields, marshal
+from flask_restful import Resource, Api, fields, marshal
 from config import basedir
 
 app = Flask(__name__)
@@ -21,11 +21,12 @@ test_fields = {
 	'status': fields.Boolean,
 	'test_data': fields.String,
 	'test_type': fields.Integer,
-	'test_begin': fields.Datetime,
-	'test_conclusion': fields.Datetime,	
+	'test_begin': fields.DateTime(dt_format='iso8601'),
+	'test_conclusion': fields.DateTime(dt_format='iso8601'),	
 	'uri': fields.Url('teste')
 }
 
+from app import views, models
 class TestListAPI(Resource):
 	def __init__(self):
 		self.reqparse = reqparse.RequestParser()
@@ -60,7 +61,7 @@ class TestAPI(Resource):
 	
 	def put(self,id):
 		test = filter(lambda t: t['id'] == test_id, testes)
-		if len(teste) == 0
+		if len(teste) == 0:
 			abort(404)
 		test = test[0]
 		args = self.reqparse.parse_args()
@@ -73,6 +74,5 @@ api.add_resource(TestListAPI, '/serverlogs/api/v0.1/testes', endpoint = 'testes'
 api.add_resource(TestAPI, '/serverlogs/api/v0.1/testes/<int:id>', endpoint = 'teste')
 
 
-from app import views, models
 
 
