@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask.ext.restful import Api, Resource
 from app import app, db, lm, oid
 from .forms import LoginForm
 from .models import User, Test
@@ -67,4 +68,9 @@ def after_login(resp):
 		session.pop('remember_me', None)
 	login_user(user, remember = remember_me)
 	return redirect(request.args.get('next') or url_for('index'))
+
+@app.route('/serverlogs/api/v0.1/testes/<int:test_id>', methods = ['PUT']) # talvez mudar para POST
+#@auth.login_required #habilitar quando se tiver um sistema de login pronto
+def update_test(test_id):
+
 	
