@@ -5,12 +5,12 @@ from flask.ext.login import LoginManager
 from flask.ext.openid import OpenID
 from flask_restful import Resource, Api, fields, marshal
 from config import basedir
+from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 api = Api(app)
-
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'

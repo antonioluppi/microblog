@@ -1,33 +1,47 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask_httpauth import HTTPBasicAuth
 from flask.ext.restful import Api, Resource
 from app import app, db, lm, oid
 from .forms import LoginForm
 from .models import User, Test
+auth = HTTPBasicAuth()
+
+
+users = {
+    "Antonio": "v2com",
+    "MCCtester": "v2com"
+}
 
 @lm.user_loader
 def load_user(id):
 	return User.query.get(int(id))
 
+@auth.get_password
+def get_pw(username):
+    if username in users:
+        return users.get(username)
+    return None
+
 @app.route('/')
 @app.route('/index')
-@login_required
+@auth.login_required
 def index():
-    user = g.user
-    posts = [  # fake array of posts
-        { 
-            'author': {'nickname': 'John'}, 
-            'body': 'Beautiful day in Portland!' 
-        },
-        { 
-            'author': {'nickname': 'Susan'}, 
-            'body': 'The Avengers movie was so cool!' 
-        }
-    ]
-    return render_template("index.html",
-                           title='Home',
-                           user=user,
-                           posts=posts)
+#	return "Hellow, %s!" % auth.username()
+	posts = [  # fake array of posts
+		{ 
+	            'author': {'nickname': 'John'}, 
+	            'body': 'Beautiful day in Portland!' 
+	        },
+	        { 
+	            'author': {'nickname': 'Susan'}, 
+	            'body': 'The Avengers movie was so cool!' 
+	        }
+			]
+	return render_template("index.html",
+				title='Home',
+	                        user="Usuario",
+	                        posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
