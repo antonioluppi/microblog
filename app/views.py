@@ -57,6 +57,15 @@ class TestListAPI(Resource):
 	def put(self):
 		pass
 
+test_fields = {
+	'sn': fields.String,
+	'status': fields.Boolean,
+	'test_data': fields.String,
+	'test_begin': fields.DateTime(dt_format='rfc822'),
+	'test_conclusion': fields.DateTime(dt_format='rfc822'), 
+	'test_type': fields.DateTime(dt_format='rfc822'),
+}
+
 class TestAPI(Resource):
 	def __init__(self):
 		self.reqparse = reqparse.RequestParser()
